@@ -1,11 +1,18 @@
 "use client";
+import { useContext } from "react";
 import Image from "next/image";
 import Building from "@/assets/building.png";
 import Logo from "@/assets/pontua-logo.png";
-import { HomeForm } from "@/components/ui/HomeForm";
+import { FormTypesContext } from "@/hooks/formControl";
+import { LoginForm } from "./LoginForm";
+import { RecoverPasswordForm } from "./RecoverPasswordForm";
+import { Done } from "./Done";
+import { SelectAgent } from "./SelectAgent";
 
 export default function Home() {
   // border border-black border-solid
+
+  const { state } = useContext(FormTypesContext);
 
   return (
     <div className="flex flex-col h-screen gap-10 bg-blue800 justify-center items-center relative">
@@ -30,7 +37,10 @@ export default function Home() {
           className="h-auto w-auto"
           style={{ objectFit: "contain" }}
         />
-        <HomeForm />
+        {state.formType === "login" && <LoginForm />}
+        {state.formType === "recover-password" && <RecoverPasswordForm />}
+        {state.formType === "done" && <Done />}
+        {state.formType === "select-agent" && <SelectAgent />}
       </div>
     </div>
   );

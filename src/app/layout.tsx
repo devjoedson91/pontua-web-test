@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Epilogue } from "next/font/google";
 import "./globals.css";
+import FormTypesProvider from "@/hooks/formControl";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={epilogue.className}>
         <div className="flex h-full flex-col">
-          <div className="flex-1">{children}</div>
+          <FormTypesProvider>
+            <div className="flex-1">{children}</div>
+          </FormTypesProvider>
         </div>
       </body>
     </html>

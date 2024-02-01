@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      boxShadow: {
+        "3xl": "10px 0px 15px -7px rgba(0,0,0,0.1)",
+      },
       colors: {
         divider: "#EBEFF2",
         blue800: "#00113D",
@@ -82,9 +85,22 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      gridTemplateAreas: {
+        "default-layout": ["header header", "aside main"],
+      },
+    },
+    gridTemplateColumns: {
+      6: "1fr 5fr",
+      1: "repeat(1, minmax(0, 1fr))",
+    },
+    gridTemplateRows: {
+      2: "auto 2rem",
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@savvywombat/tailwindcss-grid-areas"),
+  ],
 } satisfies Config;
 
 export default config;
