@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormTypesContext } from "@/hooks/formControl";
+import { FormTypesContext } from "@/hooks/useFormControl";
 
 const formSchema = z.object({
   email: z.string().email({ message: "E-mail inválido" }),

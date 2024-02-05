@@ -3,7 +3,7 @@ import { useContext } from "react";
 import Image from "next/image";
 import Building from "@/assets/building.png";
 import Logo from "@/assets/pontua-logo.png";
-import { FormTypesContext } from "@/hooks/formControl";
+import { FormTypesContext } from "@/hooks/useFormControl";
 import { LoginForm } from "./LoginForm";
 import { RecoverPasswordForm } from "./RecoverPasswordForm";
 import { Done } from "./Done";

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -10,7 +10,6 @@ import {
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import axios from "axios";
 import { PUBLICKEY, TS, hash } from "@/constants/MarvelApiParams";
-import { CharactersProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -22,6 +21,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { MenuControlContext } from "@/hooks/useMenuControl";
 
 const FormSchema = z.object({
   agent: z.string(),
@@ -30,19 +31,31 @@ const FormSchema = z.object({
 export function SelectAgent() {
   const router = useRouter();
 
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
-  const [characters, setCharacters] = useState<CharactersProps[]>([]);
+  const { characters, getCharacters } = useContext(MenuControlContext);
 
   useEffect(() => {
     (async () => {
-      const { data: response } = await axios.get(
-        `https://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&orderBy=-modified`,
-      );
+      try {
+        const { data: response } = await axios.get(
+          `https://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&orderBy=-modified&limit=50&orderBy=name`,
+        );
 
-      setCharacters(response.data.results);
+        getCharacters(response.data.results);
+      } catch (error: any) {
+        if (error.response?.status === 429) {
+          toast({
+            title: "Atenção",
+            description:
+              "Você excedeu seu limite de taxa. Por favor, tente novamente mais tarde",
+          });
+        }
+      }
     })();
   }, []);
 
@@ -54,10 +67,10 @@ export function SelectAgent() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSelectAgent)}
-        className="flex flex-col gap-5 bg-white rounded-[28px] w-96 max-h-screen p-8"
+        className="flex max-h-screen w-96 flex-col gap-5 rounded-[28px] bg-white p-8"
       >
         <div className="flex flex-col gap-2">
-          <h1 className="text-blue800 text-3xl font-bold">
+          <h1 className="text-3xl font-bold text-blue800">
             Selecione o seu agente mais legal
             <span className="text-orange500">.</span>
           </h1>
@@ -65,6 +78,7 @@ export function SelectAgent() {
             Tenha a visão completa do seu agente.
           </p>
         </div>
+
         <FormField
           control={form.control}
           name="agent"
@@ -83,11 +97,10 @@ export function SelectAgent() {
                       key={character.id.toString()}
                       value={character.name}
                     >
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-4">
                         <Avatar className="h-6 w-6">
                           <AvatarImage
                             src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
-                            style={{ objectFit: "contain" }}
                           />
                         </Avatar>
                         <span className="text-base font-medium">
@@ -103,7 +116,7 @@ export function SelectAgent() {
           )}
         />
         <Button
-          className="text-white bg-blue800 self-end font-semibold text-base rounded-[8px] w-[88px] h-[48px]"
+          className="h-[48px] w-[88px] self-end rounded-[8px] bg-blue800 text-base font-semibold text-white"
           variant="default"
           type="submit"
         >

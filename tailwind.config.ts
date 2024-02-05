@@ -90,11 +90,13 @@ const config = {
       },
     },
     gridTemplateColumns: {
-      6: "1fr 5fr",
       1: "repeat(1, minmax(0, 1fr))",
+      4: "repeat(4, minmax(0, 1fr))",
+      6: "1fr 5fr",
     },
     gridTemplateRows: {
       2: "auto 2rem",
+      3: "repeat(3, minmax(0, 1fr))",
     },
   },
   plugins: [
