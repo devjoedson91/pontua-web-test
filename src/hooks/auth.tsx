@@ -2,8 +2,8 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { recoverUserInformation, signnInRequest } from "@/service/auth";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
-import { api } from "@/service/api";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 type AuthProviderProp = {
   children: ReactNode;
@@ -63,7 +63,7 @@ export function AuthProvider({ children }: AuthProviderProp) {
 
     setCookie(undefined, "marvelauth.token", token, { maxAge: 60 * 60 * 1 });
 
-    api.defaults.headers["Authorization"] = `Bearer ${token}`;
+    axios.defaults.headers["Authorization"] = `Bearer ${token}`;
 
     setUser(user);
 

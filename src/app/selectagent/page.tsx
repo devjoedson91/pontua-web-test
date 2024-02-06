@@ -25,8 +25,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MenuControlContext } from "@/hooks/useMenuControl";
 import { z } from "zod";
-import { api } from "@/service/api";
 import { PUBLICKEY, TS, hash } from "@/constants/MarvelApiParams";
+import axios from "axios";
 
 const FormSchema = z.object({
   agent: z.string(),
@@ -46,8 +46,8 @@ export default function SelectAgent() {
   useEffect(() => {
     (async () => {
       try {
-        const { data: response } = await api.get(
-          `characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&orderBy=-modified&limit=50&orderBy=name`,
+        const { data: response } = await axios.get(
+          `https://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&orderBy=-modified&limit=50&orderBy=name`,
         );
 
         getCharacters(response.data.results);
