@@ -7,16 +7,13 @@ import { FormTypesContext } from "@/hooks/useFormControl";
 import { LoginForm } from "./LoginForm";
 import { RecoverPasswordForm } from "./RecoverPasswordForm";
 import { Done } from "./Done";
-import { SelectAgent } from "./SelectAgent";
 
 export default function Home() {
-  // border border-black border-solid
-
   const { state } = useContext(FormTypesContext);
 
   return (
-    <div className="flex flex-col h-screen gap-10 bg-blue800 justify-center items-center relative">
-      <div className="absolute top-12 left-12">
+    <div className="relative flex h-screen flex-col items-center justify-center gap-10 bg-blue800">
+      <div className="absolute left-12 top-12">
         <Image
           src={Logo}
           alt="Logo"
@@ -27,7 +24,7 @@ export default function Home() {
           style={{ objectFit: "contain" }}
         />
       </div>
-      <div className="flex justify-evenly items-center w-full">
+      <div className="flex w-full items-center justify-evenly">
         <Image
           src={Building}
           alt="Building"
@@ -40,7 +37,6 @@ export default function Home() {
         {state.formType === "login" && <LoginForm />}
         {state.formType === "recover-password" && <RecoverPasswordForm />}
         {state.formType === "done" && <Done />}
-        {state.formType === "select-agent" && <SelectAgent />}
       </div>
     </div>
   );

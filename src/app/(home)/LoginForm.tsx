@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormTypesContext } from "@/hooks/useFormControl";
+import { AuthContext } from "@/hooks/auth";
 
 const formSchema = z.object({
   email: z.string().email({ message: "E-mail inválido" }),
@@ -32,6 +33,8 @@ export function LoginForm() {
 
   const { dispatch } = useContext(FormTypesContext);
 
+  const { signIn } = useContext(AuthContext);
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
@@ -40,20 +43,18 @@ export function LoginForm() {
     resolver: zodResolver(formSchema),
   });
 
-  function handleSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
-    dispatch({ type: "select-agent" });
+  async function handleSubmit(values: z.infer<typeof formSchema>) {
+    await signIn(values);
   }
 
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-5 bg-white rounded-[28px] items-center w-96 max-h-screen p-8"
+        className="flex max-h-screen w-96 flex-col items-center gap-5 rounded-[28px] bg-white p-8"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <div className="flex flex-col gap-2">
-          <h1 className="text-blue800 text-3xl font-bold">
+          <h1 className="text-3xl font-bold text-blue800">
             Bem-vindo
             <span className="text-orange500">.</span>
           </h1>
@@ -71,7 +72,7 @@ export function LoginForm() {
                 <FormControl>
                   <Input
                     placeholder=""
-                    className="rounded-[10px] py-5 px-3 h-[57px] w-[306px] font-bold text-base text-blue600"
+                    className="h-[57px] w-[306px] rounded-[10px] px-3 py-5 text-base font-bold text-blue600"
                     autoFocus
                     {...field}
                   />
@@ -93,7 +94,7 @@ export function LoginForm() {
                 <FormControl>
                   <Input
                     placeholder=""
-                    className="rounded-[10px] py-5 px-3 h-[57px] w-[306px] font-bold text-base text-blue600"
+                    className="h-[57px] w-[306px] rounded-[10px] px-3 py-5 text-base font-bold text-blue600"
                     type={passwordIsVisible ? "text" : "password"}
                     {...field}
                   />
@@ -106,7 +107,7 @@ export function LoginForm() {
             type="button"
             size="icon"
             variant="outline"
-            className="absolute hover:bg-transparent border-none right-[1px] top-2"
+            className="absolute right-[1px] top-2 border-none hover:bg-transparent"
             onClick={() => setPasswordIsVisible(!passwordIsVisible)}
           >
             {passwordIsVisible ? (
@@ -118,19 +119,19 @@ export function LoginForm() {
         </div>
 
         <Button
-          className="gap-2 text-white bg-blue800 rounded-[10px] w-[308px] h-[57px]"
+          className="h-[57px] w-[308px] gap-2 rounded-[10px] bg-blue800 text-white"
           type="submit"
           variant="default"
         >
-          <h1 className="font-bold text-2xl">entrar</h1>
+          <h1 className="text-2xl font-bold">entrar</h1>
           <ArrowRightSquare size={16} />
         </Button>
 
-        <div className="flex gap-1 items-center self-end">
+        <div className="flex items-center gap-1 self-end">
           <ShieldQuestion size={14} color="#F21A05" />
           <button
             type="button"
-            className="text-orange500 text-xs font-normal"
+            className="text-xs font-normal text-orange500"
             onClick={() => dispatch({ type: "recover-password" })}
           >
             Esqueceu a senha?

@@ -1,7 +1,7 @@
 "use client";
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
-const formTypes = ["login", "recover-password", "select-agent", "done"];
+const formTypes = ["login", "recover-password", "done"];
 
 interface FormTypesProps {
   children: ReactNode;
@@ -12,7 +12,7 @@ type StateProps = {
 };
 
 interface ActionProps {
-  readonly type: "login" | "recover-password" | "select-agent" | "done";
+  readonly type: "login" | "recover-password" | "done";
   payload?: number;
 }
 
@@ -31,13 +31,9 @@ const formReducer = (state: StateProps, action: ActionProps) => {
       return {
         formType: formTypes[1],
       };
-    case "select-agent":
-      return {
-        formType: formTypes[2],
-      };
     case "done":
       return {
-        formType: formTypes[3],
+        formType: formTypes[2],
       };
     default:
       return {

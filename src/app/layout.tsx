@@ -4,6 +4,7 @@ import "./globals.css";
 import FormTypesProvider from "@/hooks/useFormControl";
 import MenuControlProvider from "@/hooks/useMenuControl";
 import { Toaster } from "@/components/ui/toaster";
+import { AuthProvider } from "@/hooks/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,11 +24,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={epilogue.className}>
         <div className="flex h-full flex-col">
-          <FormTypesProvider>
-            <MenuControlProvider>
-              <div className="flex-1">{children}</div>
-            </MenuControlProvider>
-          </FormTypesProvider>
+          <AuthProvider>
+            <FormTypesProvider>
+              <MenuControlProvider>
+                <div className="flex-1">{children}</div>
+              </MenuControlProvider>
+            </FormTypesProvider>
+          </AuthProvider>
         </div>
         <Toaster />
       </body>

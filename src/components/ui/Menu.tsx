@@ -5,19 +5,19 @@ import { Button } from "./button";
 import { CornerUpLeft, LayoutPanelLeft, Search, UserRound } from "lucide-react";
 import { Separator } from "./separator";
 import { Input } from "./input";
-import { useRouter } from "next/navigation";
 import { MenuControlContext } from "@/hooks/useMenuControl";
 import { Form, FormControl, FormField, FormItem } from "./form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthContext } from "@/hooks/auth";
 
 const FormSchema = z.object({
   character: z.string(),
 });
 
 export function Menu() {
-  const router = useRouter();
+  const { signOut } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
@@ -27,10 +27,6 @@ export function Menu() {
   });
 
   const { state, dispatch, getSelectedAgent } = useContext(MenuControlContext);
-
-  function handleSignOut() {
-    router.push("/");
-  }
 
   function handleSearchCharacter(values: z.infer<typeof FormSchema>) {
     form.reset();
@@ -106,7 +102,7 @@ export function Menu() {
           variant="outline"
           className="w-full items-center justify-start gap-2 border-none text-sm font-medium
            hover:bg-transparent hover:text-orange500"
-          onClick={handleSignOut}
+          onClick={signOut}
         >
           <CornerUpLeft size={16} />
           Sair
