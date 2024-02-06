@@ -3,6 +3,7 @@ import {
   Dispatch,
   ReactNode,
   createContext,
+  useEffect,
   useReducer,
   useState,
 } from "react";
@@ -47,7 +48,6 @@ interface MenuControlContextData {
   tabsData: TabDataProps[];
   toggleActiveTabs: (target: any, index: number) => void;
   getSelectedAgent: (data: string) => void;
-  getCharacters: (data: CharactersProps[]) => void;
   characters: CharactersProps[];
   activeTabIndex: number;
   agentSelected: CharactersProps | undefined;
@@ -74,6 +74,29 @@ export default function MenuControlProvider({ children }: MenuControlProps) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const [characters, setCharacters] = useState<CharactersProps[]>([]);
+
+  useEffect(() => {
+    loadCharacters();
+  }, []);
+
+  async function loadCharacters() {
+    try {
+      const { data: response } = await axios.get(
+        `https://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&orderBy=-modified&limit=100`,
+      );
+
+      setCharacters(response.data.results);
+    } catch (error: any) {
+      console.log({ error });
+      if (error.response?.status === 429) {
+        toast({
+          title: "Atenção",
+          description:
+            "Você excedeu seu limite de taxa. Por favor, tente novamente mais tarde",
+        });
+      }
+    }
+  }
 
   const [agentSelected, setAgentSelected] = useState<
     CharactersProps | undefined
@@ -107,24 +130,28 @@ export default function MenuControlProvider({ children }: MenuControlProps) {
     },
   ]);
 
-  function getCharacters(data: CharactersProps[]) {
-    setCharacters(data);
-  }
-
   async function getSelectedAgent(slug: string) {
-    try {
-      const { data: response } = await axios.get(
-        `https://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&name=${slug}`,
-      );
+    const characterExists = characters.find(
+      (character) => character.name.toLowerCase() === slug.toLowerCase(),
+    );
 
-      setAgentSelected(response.data.results[0]);
-    } catch (error: any) {
-      if (error.response?.status === 429) {
-        toast({
-          title: "Atenção",
-          description:
-            "Você excedeu seu limite de taxa. Por favor, tente novamente mais tarde",
-        });
+    if (characterExists) {
+      setAgentSelected(characterExists);
+    } else {
+      try {
+        const { data: response } = await axios.get(
+          `https://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&nameStartsWith=${slug}`,
+        );
+
+        setAgentSelected(response.data.results[0]);
+      } catch (error: any) {
+        if (error.response?.status === 429) {
+          toast({
+            title: "Atenção",
+            description:
+              "Você excedeu seu limite de taxa. Por favor, tente novamente mais tarde",
+          });
+        }
       }
     }
   }
@@ -152,7 +179,6 @@ export default function MenuControlProvider({ children }: MenuControlProps) {
         dispatch,
         toggleActiveTabs,
         getSelectedAgent,
-        getCharacters,
         characters,
         tabsData,
         activeTabIndex,

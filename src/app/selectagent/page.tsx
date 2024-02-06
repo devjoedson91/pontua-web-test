@@ -41,27 +41,7 @@ export default function SelectAgent() {
     resolver: zodResolver(FormSchema),
   });
 
-  const { characters, getCharacters } = useContext(MenuControlContext);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data: response } = await axios.get(
-          `https://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&orderBy=-modified&limit=50&orderBy=name`,
-        );
-
-        getCharacters(response.data.results);
-      } catch (error: any) {
-        if (error.response?.status === 429) {
-          toast({
-            title: "Atenção",
-            description:
-              "Você excedeu seu limite de taxa. Por favor, tente novamente mais tarde",
-          });
-        }
-      }
-    })();
-  }, []);
+  const { characters } = useContext(MenuControlContext);
 
   function handleSelectAgent(data: z.infer<typeof FormSchema>) {
     router.push(`/dashboard/${data.agent}`);
