@@ -139,7 +139,7 @@ export default function MenuControlProvider({ children }: MenuControlProps) {
 
   async function getSelectedAgent(agent: string) {
     await fetch(
-      `http://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&nameStartsWith=${agent}`,
+      `http://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&name=${agent}`,
       {
         method: "GET",
         headers: {
