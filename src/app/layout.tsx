@@ -22,6 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head
+        http-equiv="Content-Security-Policy"
+        content="upgrade-insecure-requests"
+      />
       <body className={epilogue.className}>
         <div className="flex h-full flex-col">
           <AuthProvider>
