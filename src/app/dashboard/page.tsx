@@ -1,16 +1,12 @@
 "use client";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import { Menu } from "@/components/ui/Menu";
 import { MenuControlContext } from "@/hooks/useMenuControl";
 import { Home } from "@/components/ui/Home";
 import { Profile } from "@/components/ui/Profile";
 
-export default function Dashboard({ params }: any) {
-  const { state, getSelectedAgent } = useContext(MenuControlContext);
-
-  useEffect(() => {
-    getSelectedAgent(params.slug);
-  }, [params]);
+export default function Dashboard() {
+  const { state } = useContext(MenuControlContext);
 
   return (
     <div className="grid grid-cols-6 grid-rows-2 grid-areas-default-layout">

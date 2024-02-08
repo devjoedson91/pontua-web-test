@@ -42,9 +42,12 @@ export function AuthProvider({ children }: AuthProviderProp) {
       setUser(null);
       router.push("/");
     } else {
-      recoverUserInformation().then((response) => setUser(response.user));
+      recoverUserInformation().then((response) => {
+        setUser(response.user);
+        router.push("/dashboard");
+      });
     }
-  }, []);
+  }, [router]);
 
   function signOut() {
     try {

@@ -7,15 +7,15 @@ import {
   useReducer,
   useState,
 } from "react";
-import { Authors } from "@/app/dashboard/[slug]/components/Authors";
-import { Overview } from "@/app/dashboard/[slug]/components/Overview";
-import { Powers } from "@/app/dashboard/[slug]/components/Powers";
-import { Species } from "@/app/dashboard/[slug]/components/Species";
-import { Teams } from "@/app/dashboard/[slug]/components/Teams";
-import { PUBLICKEY, TS, hash } from "@/constants/MarvelApiParams";
+import { Authors } from "@/app/dashboard/components/Authors";
+import { Overview } from "@/app/dashboard/components/Overview";
+import { Powers } from "@/app/dashboard/components/Powers";
+import { Species } from "@/app/dashboard/components/Species";
+import { Teams } from "@/app/dashboard/components/Teams";
 import { CharactersProps } from "@/types";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
+import md5 from "md5";
 
 const menuTabs = ["home", "perfil"];
 
@@ -47,7 +47,7 @@ interface MenuControlContextData {
   dispatch: Dispatch<ActionProps>;
   tabsData: TabDataProps[];
   toggleActiveTabs: (target: any, index: number) => void;
-  getSelectedAgent: (data: string) => void;
+  getSelectedAgent: (agent: string) => void;
   characters: CharactersProps[];
   activeTabIndex: number;
   agentSelected: CharactersProps | undefined;
@@ -68,12 +68,23 @@ const menuReducer = (state: StateProps, action: ActionProps) => {
 export const MenuControlContext = createContext({} as MenuControlContextData);
 
 export default function MenuControlProvider({ children }: MenuControlProps) {
+  const TS = Number(new Date());
+
+  const PUBLICKEY = "ada630a40ced7b478901f44fb1fbdff6";
+
+  const PRIVATEKEY = "543e7b8d8fc7e90f2275edbb12ee32afa2ba4d01";
+
+  const hash = md5(TS + PRIVATEKEY + PUBLICKEY);
   const { toast } = useToast();
   const [state, dispatch] = useReducer(menuReducer, initialState);
 
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const [characters, setCharacters] = useState<CharactersProps[]>([]);
+
+  const [agentSelected, setAgentSelected] = useState<
+    CharactersProps | undefined
+  >(undefined);
 
   useEffect(() => {
     loadCharacters();
@@ -97,10 +108,6 @@ export default function MenuControlProvider({ children }: MenuControlProps) {
       }
     }
   }
-
-  const [agentSelected, setAgentSelected] = useState<
-    CharactersProps | undefined
-  >(undefined);
 
   const [tabsData, setTabsData] = useState([
     {
@@ -130,21 +137,19 @@ export default function MenuControlProvider({ children }: MenuControlProps) {
     },
   ]);
 
-  async function getSelectedAgent(slug: string) {
-    const characterExists = characters.find(
-      (character) => character.name.toLowerCase() === slug.toLowerCase(),
-    );
-
-    if (characterExists) {
-      setAgentSelected(characterExists);
-    } else {
-      try {
-        const { data: response } = await axios.get(
-          `https://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&nameStartsWith=${slug}`,
-        );
-
-        setAgentSelected(response.data.results[0]);
-      } catch (error: any) {
+  async function getSelectedAgent(agent: string) {
+    await fetch(
+      `http://gateway.marvel.com/v1/public/characters?ts=${TS}&apikey=${PUBLICKEY}&hash=${hash}&nameStartsWith=${agent}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+      .then((response) => response.json())
+      .then((response) => setAgentSelected(response.data.results[0]))
+      .catch((error: any) => {
         if (error.response?.status === 429) {
           toast({
             title: "Atenção",
@@ -152,8 +157,7 @@ export default function MenuControlProvider({ children }: MenuControlProps) {
               "Você excedeu seu limite de taxa. Por favor, tente novamente mais tarde",
           });
         }
-      }
-    }
+      });
   }
 
   function toggleActiveTabs(target: any, index: number) {

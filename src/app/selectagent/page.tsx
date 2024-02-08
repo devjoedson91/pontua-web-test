@@ -20,13 +20,10 @@ import {
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MenuControlContext } from "@/hooks/useMenuControl";
 import { z } from "zod";
-import { PUBLICKEY, TS, hash } from "@/constants/MarvelApiParams";
-import axios from "axios";
 
 const FormSchema = z.object({
   agent: z.string(),
@@ -35,16 +32,15 @@ const FormSchema = z.object({
 export default function SelectAgent() {
   const router = useRouter();
 
-  const { toast } = useToast();
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
-  const { characters } = useContext(MenuControlContext);
+  const { characters, getSelectedAgent } = useContext(MenuControlContext);
 
   function handleSelectAgent(data: z.infer<typeof FormSchema>) {
-    router.push(`/dashboard/${data.agent}`);
+    getSelectedAgent(data.agent);
+    router.push(`/dashboard`);
   }
   return (
     <div className="relative flex h-screen flex-col items-center justify-center gap-10 bg-blue800">
