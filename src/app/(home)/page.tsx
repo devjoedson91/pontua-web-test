@@ -20,18 +20,17 @@ export default function Home() {
           height={0}
           width={0}
           sizes="100vw"
-          className="h-auto w-auto"
           style={{ objectFit: "contain" }}
         />
       </div>
-      <div className="flex w-full items-center justify-evenly">
+      <div className="text flex w-full items-center justify-evenly">
         <Image
           src={Building}
           alt="Building"
           height={0}
           width={0}
           sizes="100vw"
-          className="h-auto w-auto"
+          className="hidden h-auto w-auto sm:block"
           style={{ objectFit: "contain" }}
         />
         {state.formType === "login" && <LoginForm />}

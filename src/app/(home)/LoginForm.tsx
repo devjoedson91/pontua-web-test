@@ -50,7 +50,7 @@ export function LoginForm() {
   return (
     <Form {...form}>
       <form
-        className="flex max-h-screen w-96 flex-col items-center gap-5 rounded-[28px] bg-white p-8"
+        className="flex max-h-screen max-w-96 flex-col items-center gap-5 rounded-[28px] bg-white p-8"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <div className="flex flex-col gap-2">

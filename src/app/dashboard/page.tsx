@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useLayoutEffect } from "react";
+import { useContext } from "react";
 import { Menu } from "@/components/ui/Menu";
 import { MenuControlContext } from "@/hooks/useMenuControl";
 import { Home } from "@/components/ui/Home";
