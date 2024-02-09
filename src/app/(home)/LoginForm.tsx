@@ -50,7 +50,7 @@ export function LoginForm() {
   return (
     <Form {...form}>
       <form
-        className="flex max-h-screen max-w-96 flex-col items-center gap-5 rounded-[28px] bg-white p-8"
+        className="z-[1] flex max-h-screen max-w-96 flex-col items-center gap-5 rounded-[28px] bg-white p-8"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <div className="flex flex-col gap-2">
@@ -131,7 +131,7 @@ export function LoginForm() {
           <ShieldQuestion size={14} color="#F21A05" />
           <button
             type="button"
-            className="text-xs font-normal text-orange500"
+            className="text-base font-normal text-orange500 sm:text-xs"
             onClick={() => dispatch({ type: "recover-password" })}
           >
             Esqueceu a senha?

@@ -39,7 +39,7 @@ export function Home() {
         {currentItens.map((character, index) => (
           <button
             key={character.id}
-            className={`flex gap-3 rounded-2xl bg-gray100 p-4 ${index === 8 || index === 9 ? "w-[526px]" : "w-[258px]"} h-[147px]`}
+            className={`flex w-full gap-3 rounded-2xl bg-gray100 p-4 sm:${index === 8 || index === 9 ? "w-[526px]" : "w-[258px]"} h-[147px]`}
             onClick={() => handleSelectCharacter(character.name)}
           >
             <Image

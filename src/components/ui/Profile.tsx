@@ -23,11 +23,11 @@ export function Profile() {
             <h1 className="font-light text-gray500">{agentSelected?.name}</h1>
           </div>
 
-          <div className="flex space-x-2 border-b border-gray100">
+          <div className="flex w-full space-x-2 overflow-x-auto border-b border-gray100 [&::-webkit-scrollbar]:hidden">
             {tabsData.map((tab, index) => (
               <button
                 key={index}
-                className={`p-4 text-sm font-medium ${
+                className={`p-4 text-base font-medium sm:text-sm ${
                   tab.isActive
                     ? "border-b-[2px] border-blue600 text-blue600"
                     : ""

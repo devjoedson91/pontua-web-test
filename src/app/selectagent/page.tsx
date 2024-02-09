@@ -51,7 +51,6 @@ export default function SelectAgent() {
           height={0}
           width={0}
           sizes="100vw"
-          className="h-auto w-auto"
           style={{ objectFit: "contain" }}
         />
       </div>
@@ -62,13 +61,13 @@ export default function SelectAgent() {
           height={0}
           width={0}
           sizes="100vw"
-          className="h-auto w-auto"
+          className="hidden h-auto w-auto sm:block"
           style={{ objectFit: "contain" }}
         />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSelectAgent)}
-            className="flex max-h-screen w-96 flex-col gap-5 rounded-[28px] bg-white p-8"
+            className="z-[1] flex max-h-screen max-w-96 flex-col items-center gap-5 rounded-[28px] bg-white p-8"
           >
             <div className="flex flex-col gap-2">
               <h1 className="text-3xl font-bold text-blue800">

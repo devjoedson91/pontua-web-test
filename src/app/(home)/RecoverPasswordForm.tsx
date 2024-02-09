@@ -39,11 +39,11 @@ export function RecoverPasswordForm() {
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-5 bg-white rounded-[28px] items-center w-96 max-h-screen p-8"
+        className="z-[1] flex max-h-screen w-96 flex-col items-center gap-5 rounded-[28px] bg-white p-8"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <div className="flex flex-col gap-2">
-          <h1 className="text-blue800 text-3xl font-bold">
+          <h1 className="text-3xl font-bold text-blue800">
             Recuperar senha
             <span className="text-orange500">.</span>
           </h1>
@@ -62,7 +62,7 @@ export function RecoverPasswordForm() {
                 <FormControl>
                   <Input
                     placeholder="Informe seu email"
-                    className="rounded-[10px] py-5 px-3 h-[57px] w-[306px] font-bold text-base text-blue600"
+                    className="h-[57px] w-[306px] rounded-[10px] px-3 py-5 text-base font-bold text-blue600"
                     {...field}
                   />
                 </FormControl>
@@ -76,7 +76,7 @@ export function RecoverPasswordForm() {
         </div>
 
         <Button
-          className="gap-2 text-white bg-blue800 font-bold text-2xl rounded-[10px] w-[308px] h-[57px]"
+          className="h-[57px] w-[308px] gap-2 rounded-[10px] bg-blue800 text-2xl font-bold text-white"
           variant="default"
           type="submit"
           disabled={

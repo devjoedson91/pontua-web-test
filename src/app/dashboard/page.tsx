@@ -9,7 +9,7 @@ export default function Dashboard() {
   const { state } = useContext(MenuControlContext);
 
   return (
-    <div className="grid grid-cols-6 grid-rows-2 grid-areas-default-layout">
+    <div className="sm:grid sm:grid-cols-6 sm:grid-rows-2 sm:grid-areas-default-layout">
       <Menu />
       <main className="h-[calc(100vh-4rem)] px-8 py-4 grid-in-main">
         {state.menuTab === "home" && <Home />}
