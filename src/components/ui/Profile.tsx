@@ -17,7 +17,7 @@ export function Profile() {
     <>
       {agentSelected ? (
         <>
-          <div className="flex items-center gap-1 text-2xl">
+          <div className="flex items-center gap-1 text-xl sm:text-2xl">
             <h1 className="font-semibold text-blue800">Perfil</h1>
             <span className="font-semibold text-orange500">/</span>
             <h1 className="font-light text-gray500">{agentSelected?.name}</h1>

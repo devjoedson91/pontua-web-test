@@ -88,20 +88,20 @@ export default function SelectAgent() {
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <FormControl>
+                    <FormControl className="h-14 w-80">
                       <SelectTrigger>
                         <SelectValue placeholder="Selecione um agente" />
                       </SelectTrigger>
                     </FormControl>
 
-                    <SelectContent>
+                    <SelectContent className="max-w-80 justify-self-center">
                       {characters.map((character) => (
                         <SelectItem
                           key={character.id.toString()}
                           value={character.name}
                         >
                           <div className="flex items-center gap-4">
-                            <Avatar className="h-6 w-6">
+                            <Avatar className="h-8 w-8 sm:h-6 sm:w-6">
                               <AvatarImage
                                 src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
                               />

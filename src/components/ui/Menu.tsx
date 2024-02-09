@@ -41,7 +41,7 @@ export function Menu() {
         className="flex flex-col justify-center gap-6 py-6 sm:grid sm:h-16 sm:grid-cols-6 sm:gap-0 sm:border-b sm:border-gray100 sm:py-0
          sm:grid-in-header"
       >
-        <div className="flex w-full items-center justify-center  shadow-3xl sm:h-full sm:justify-start sm:pl-4">
+        <div className="flex w-full items-center justify-center sm:h-full sm:justify-start sm:pl-4 sm:shadow-3xl">
           <Image
             src={Logo}
             alt="Logo"
@@ -54,7 +54,10 @@ export function Menu() {
           <div className="sm:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" className="border-none">
+                <Button
+                  variant="outline"
+                  className="border-none hover:bg-transparent"
+                >
                   <Image
                     src={Logo}
                     alt="Logo"

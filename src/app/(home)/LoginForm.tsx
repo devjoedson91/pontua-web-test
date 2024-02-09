@@ -73,7 +73,6 @@ export function LoginForm() {
                   <Input
                     placeholder=""
                     className="h-[57px] w-[306px] rounded-[10px] px-3 py-5 text-base font-bold text-blue600"
-                    autoFocus
                     {...field}
                   />
                 </FormControl>
