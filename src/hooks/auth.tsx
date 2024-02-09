@@ -53,6 +53,8 @@ export function AuthProvider({ children }: AuthProviderProp) {
     try {
       destroyCookie(undefined, "marvelauth.token");
 
+      localStorage.removeItem("agent-selected");
+
       setUser(null);
 
       router.push("/");

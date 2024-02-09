@@ -90,6 +90,14 @@ export default function MenuControlProvider({ children }: MenuControlProps) {
     loadCharacters();
   }, []);
 
+  useEffect(() => {
+    const agentSelectedData = localStorage.getItem("agent-selected");
+
+    if (agentSelectedData) {
+      setAgentSelected(JSON.parse(agentSelectedData));
+    }
+  }, []);
+
   async function loadCharacters() {
     try {
       const { data: response } = await axios.get(
@@ -148,7 +156,18 @@ export default function MenuControlProvider({ children }: MenuControlProps) {
       },
     )
       .then((response) => response.json())
-      .then((response) => setAgentSelected(response.data.results[0]))
+      .then((response) => {
+        const agentSelectedData = localStorage.getItem("agent-selected");
+
+        if (!agentSelectedData) {
+          localStorage.setItem(
+            "agent-selected",
+            JSON.stringify(response.data.results[0]),
+          );
+        }
+
+        setAgentSelected(response.data.results[0]);
+      })
       .catch((error: any) => {
         if (error.response?.status === 429) {
           toast({
